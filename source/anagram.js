@@ -1,5 +1,14 @@
 'use strict';
 
+
+function anyCase(a, b) {
+    if (a[0].toLowerCase() > b[0].toLowerCase())
+      return 1;
+    if (a[0].toLowerCase() < b[0].toLowerCase())
+      return -1;
+    else
+      return 0;
+    }
 /**
  * Находит анаграммы.
  * @author - Ражев М. А., АПО-22
@@ -8,33 +17,41 @@
  */
 
 const anagram = arr => {
-    // Объект для группировки по признаку "слова-анаграммы".
-    let groups = {};
-
-    // Рассматриваем все исходные слова
-    arr.forEach( item => {
-      // Разбить слово на буквы, отсортировать и слить обратно
-      let sorted = item.toLowerCase().split('').sort().join(''); // (*)
-      // Удаляем все пробелы.
-      sorted = sorted.replace(/\s+/g, '');
-      if(groups[sorted]) {
-          // В группе sorted уже есть анаграммы.
-          groups[sorted].push(item);
-      } else {
-          groups[sorted] =  [item];
+    try{
+        if(arr.constructor !== Array) {
+            throw new Error("Input data error: not massive");
         }
-    });
+        // Объект для группировки по признаку "слова-анаграммы".
+        const groups = {};
 
-    const result = [];
+        // Рассматриваем все исходные слова
+        arr.forEach( item => {
+            if(typeof item !== 'string') {
+                throw new Error("Input data error: not string element");
+            }
+            // Удалить все пробелы, разбить слово на буквы, сортировать и слить обратно.
+            const sorted = item.replace(/\s+/g, '').toLowerCase().split('').sort().join('');
+        
+            if(groups[sorted]) {
+                // В группе sorted уже есть анаграммы.
+                groups[sorted].push(item);
+            } else {
+                groups[sorted] = [item];
+            }
+        });
+    
+        const result = [];
 
-    for(let property in groups) {
-        // По условию задачи, интересуют группы, где более одной анаграммы.
-        if(groups[property].length > 1) {
-            result.push(groups[property].slice().sort());
+        for(let property in groups) {
+            // По условию задачи, интересуют группы, где более одной анаграммы.
+            if(groups[property].length > 1) {
+                result.push(groups[property].sort());
+            }
         }
+        // Сортировка групп.
+        result.sort(anyCase);
+        return result;
+    } catch(error) {
+        return error.message;
     }
-    // Сортировка групп.
-    result.sort();
-
-    return result;
 }
