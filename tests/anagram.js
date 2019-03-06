@@ -42,16 +42,4 @@ QUnit.module('Тестируем функцию anagram', function () {
 
 		assert.deepEqual(anagram(input), output);
 	});
-
-	QUnit.test('Ошибка входных данных: передаем в массиве не string значение', function (assert) {
-		const input = [
-			'кот', 'внимание', 'пила', 'барокко', 
-			'стоп', 'ток', 'кошка',
-			'липа', 'коробка', 'пост', 'Вениамин', 2, 6
-		];
-
-		const output = 'Input data error: not string element';
-
-		assert.deepEqual(anagram(input), output);
-	});
 });
