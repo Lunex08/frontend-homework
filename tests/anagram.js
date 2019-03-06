@@ -38,8 +38,6 @@ QUnit.module('Тестируем функцию anagram', function () {
 	QUnit.test('Ошибка входных данных: передаем не массив', function (assert) {
 		const input = 'кот';
 
-		const output = 'Input data error: not massive';
-
-		assert.deepEqual(anagram(input), output);
+		assert.deepEqual(anagram(input), undefined);
 	});
 });
