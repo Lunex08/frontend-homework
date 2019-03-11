@@ -17,19 +17,19 @@ const anagram = arr => {
         return;
     }
 
-    const groups = {};
-    arr.forEach( item => {
-        const sorted = item.replace(/\s+/g, '').toLowerCase().split('').sort().join('');
-        
-        if (!groups[sorted]) {
-            groups[sorted] = []
+    const groups = arr.reduce((accumulator, currentValue) => {
+        const sorted = currentValue.replace(/\s+/g, '').toLowerCase().split('').sort().join('');
+        if (!accumulator[sorted]) {
+            accumulator[sorted] = [];
         }
+        accumulator[sorted].push(currentValue);
+        return accumulator;
+    }, {});
 
-        groups[sorted].push(item)
-    });
-
-    const result = [];
-    Object.keys(groups).filter(key => groups[key].length > 1).forEach((key) => result.push(groups[key].sort()));
-    
-    return result.sort(anyCase);
+    return Object.keys(groups).reduce((accumulator, currentValue) => {
+        if (groups[currentValue].length > 1) {
+            accumulator.push(groups[currentValue].sort())
+        }
+        return accumulator;
+    }, []).sort(anyCase);
 }
