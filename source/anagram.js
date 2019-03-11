@@ -26,9 +26,9 @@ const anagram = arr => {
         return accumulator;
     }, {});
 
-    return Object.keys(groups).reduce((accumulator, currentValue) => {
-        if (groups[currentValue].length > 1) {
-            accumulator.push(groups[currentValue].sort())
+    return Object.entries(groups).reduce((accumulator, [_, value]) => {
+        if (value.length > 1) {
+            accumulator.push(value.sort())
         }
         return accumulator;
     }, []).sort(anyCase);
